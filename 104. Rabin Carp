@@ -1,0 +1,67 @@
+#include <bits/stdc++.h>
+vector<int> stringMatch(string &str, string &pat) {
+    // Write your code here
+     int n=pat.size();
+
+ //prefix array
+
+vector<int> pi(n,0);
+
+ 
+
+for(int i=1;i<n;i++){
+
+int j=pi[i-1];
+
+while(j>0&&pat[i]!=pat[j])j=pi[j-1];
+
+if(pat[i]==pat[j])j++;
+
+pi[i]=j;
+
+ 
+
+}
+
+vector<int> v;
+
+ 
+
+int i=0,j=0;
+
+while(i<str.size()){
+
+if(str[i]==pat[j]){
+
+    i++;
+
+    j++;
+
+}
+
+else{
+
+if(j!=0)j=pi[j-1];
+
+else i++;
+
+ 
+
+}
+
+if(j==pat.size()){
+
+    v.push_back(i-pat.size());
+
+    j=pi[j-1];
+
+}
+
+ 
+
+}
+
+ 
+
+return v;
+}
