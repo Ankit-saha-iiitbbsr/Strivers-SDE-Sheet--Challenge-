@@ -1,0 +1,25 @@
+from os import *
+from sys import *
+from collections import *
+from math import *
+def helper1(idx,temp,v,res):
+    res.append(temp.copy())
+    for i in range(idx,len(v)):
+        temp.append(v[i])
+        helper1(i+1,temp,v,res)
+        temp.pop()
+
+# Using just recursion with take and left approach
+def helper2(idx,temp,v,res):
+    if idx == len(v):
+        res.append(temp.copy())
+        return
+    
+    helper2(idx+1,temp,v,res) # take
+    helper2(idx+1,temp+[v[idx]],v,res) # dont take
+
+def pwset(v):
+    res = []
+    # helper1(0,[],v,res)
+    helper2(0,[],v,res)
+    return res
