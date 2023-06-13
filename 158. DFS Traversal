@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+void dfs(vector<vector<int>> &adj, vector<int> &comp, vector<bool> &visited, int node){
+    // Base Case
+    if(visited[node]) return;
+    visited[node] = true;
+    comp.push_back(node);
+    for(int u : adj[node]){
+        if(!visited[u])
+            dfs(adj, comp, visited, u);
+    }
+}
+
+vector<vector<int>> depthFirstSearch(int V, int E, vector<vector<int>> &edges)
+{
+    // Write your code here
+      // DFS Traversal
+    // Time Complexity: O(V + E)
+    // Space Complexity: O(V)
+
+    vector<vector<int>> adj(V);
+    for(auto e : edges){
+        adj[e[0]].push_back(e[1]);
+        adj[e[1]].push_back(e[0]);
+    }
+    vector<vector<int>> ans;
+    // visited array
+    vector<bool> visited(V, false);
+    // Since the graph is disconected
+    for(int i = 0; i < V; i++){
+        if(!visited[i]){
+            vector<int> comp;
+            // DFS Traversal
+            dfs(adj, comp, visited, i);
+            ans.push_back(comp);
+        }
+    }
+    return ans;
+}
