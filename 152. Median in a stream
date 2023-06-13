@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+int findMedian(priority_queue<int>& maxHeap, priority_queue<int, vector<int>, greater<int>>& minHeap, int element, int median){
+	int sign = maxHeap.size() - minHeap.size();
+	switch(sign){
+		case 0:
+			if(element > median){
+				minHeap.push(element);
+				return minHeap.top();
+			}
+			else{
+				maxHeap.push(element);
+				return maxHeap.top();
+			}
+			break;
+		case 1:
+			if(element > median){
+				minHeap.push(element);
+				return (0.5*(minHeap.top() + maxHeap.top()));
+			}
+			else{
+				minHeap.push(maxHeap.top());
+				maxHeap.pop();
+				maxHeap.push(element);
+				return 0.5*(minHeap.top() + maxHeap.top());
+			}
+			break;
+		case -1:
+			if(element > median){
+				maxHeap.push(minHeap.top());
+				minHeap.pop();
+				minHeap.push(element);
+				return 0.5*(minHeap.top() + maxHeap.top());
+			}
+			else{
+				maxHeap.push(element);
+				return 0.5*(minHeap.top() + maxHeap.top());
+			}
+			break;
+		default:
+			break;
+	}
+	return -1;
+}
+
+vector<int> findMedian(vector<int> &arr, int n){
+	// Approach 2: Using Heap <Both Min Heap and Max Heap>
+	// Intuition: element after the median will be greater then
+	// the median and element before the median will be less then 
+	// the median. <element before--Max Heap and element after--Min Heap>
+	// Now the task is to mentain a balanced heap at both side,
+	// i.e. size difference of the min and max heap must be less then 2<abs>.
+	// Time Complexity: O(N*logN)
+	// Space Complexity: O(N)
+	vector<int> ans;
+	// Max Heap
+	priority_queue<int> maxHeap;
+	// Min Heap
+	priority_queue<int, vector<int>, greater<int>> minHeap;
+	
+	int prevMedian = 0;
+
+	for(int i = 0; i < n; i++){
+		prevMedian = findMedian(maxHeap, minHeap, arr[i], prevMedian);
+		ans.push_back(prevMedian);
+	}
+
+	return ans;
+}
