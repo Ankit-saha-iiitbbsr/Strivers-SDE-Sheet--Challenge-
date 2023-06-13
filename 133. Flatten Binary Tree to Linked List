@@ -1,0 +1,41 @@
+#include <bits/stdc++.h> 
+/************************************************************
+
+    Following is the TreeNode class structure.
+
+    template <typename T>
+    class TreeNode {
+        public:
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+
+TreeNode<int> *flattenBinaryTree(TreeNode<int> *root)
+{
+    // Write your code here.
+     TreeNode<int> *curr=root;
+    while(curr!=NULL)
+    {
+       if(curr->left)
+       {
+         TreeNode<int> *pred=curr->left;      //creating new node and pointing it to curr left                                          
+           while(pred->right)
+           
+               pred=pred->right;        //moving pointer to next node 
+               pred->right=curr->right;  //pointing pred right to curr right
+               curr->right=curr->left;   //pointing curr right to curr left
+                curr->left=NULL;        //pointing curr left to null
+          }
+           curr=curr->right;        //moving curr to nect node if left doesnt exists
+       }
+        return root;              //return root bcz datatype used is INT 
+}
